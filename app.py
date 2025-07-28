@@ -6,8 +6,8 @@ st.set_page_config(page_title="Prediksi Penyerapan Anggaran", page_icon="📊")
 
 # --- Load Model and Scaler ---
 try:
-    model = joblib.load('model_pipeline.joblib')
-    scaler = joblib.load('scaler.joblib')
+    model = joblib.load('https://raw.githubusercontent.com/naswadina/Aplikasi_Prediksi_Anggaran/blob/main/model_pipeline.joblib')
+    scaler = joblib.load('https://raw.githubusercontent.com/naswadina/Aplikasi_Prediksi_Anggaran/blob/main/scaler.joblib')
 except FileNotFoundError:
     st.error(
         "Model files not found! Please run the `train_and_save_model.py` script "
