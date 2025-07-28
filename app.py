@@ -10,8 +10,8 @@ try:
     scaler = joblib.load('https://raw.githubusercontent.com/naswadina/Aplikasi_Prediksi_Anggaran/blob/main/scaler.joblib')
 except FileNotFoundError:
     st.error(
-        "Model files not found! Please run the `https://raw.githubusercontent.com/naswadina/Aplikasi_Prediksi_Anggaran/blob/main/train_and_save_model.py` script "
-        "first to generate 'https://raw.githubusercontent.com/naswadina/Aplikasi_Prediksi_Anggaran/blob/main/model_pipeline.joblib' and 'https://raw.githubusercontent.com/naswadina/Aplikasi_Prediksi_Anggaran/blob/main/scaler.joblib'."
+        "Model files not found! Please run the `train_and_save_model.py` script"
+        "first to generate 'model_pipeline.joblib' and 'scaler.joblib'."
     )
     st.stop()
 
