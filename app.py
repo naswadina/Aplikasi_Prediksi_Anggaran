@@ -1,18 +1,24 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import os
 
 st.set_page_config(page_title="Prediksi Penyerapan Anggaran", page_icon="📊")
 
-# --- Load Model and Scaler ---
+# --- Cara Memuat File yang Benar ---
+# Dapatkan path absolut ke direktori tempat app.py berada
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Gabungkan path direktori dengan nama file untuk membuat path yang lengkap dan kokoh
+MODEL_PATH = os.path.join(BASE_DIR, 'model_pipeline.joblib')
+SCALER_PATH = os.path.join(BASE_DIR, 'scaler.joblib')
+
 try:
-    model = joblib.load('https://raw.githubusercontent.com/naswadina/Aplikasi_Prediksi_Anggaran/blob/main/model_pipeline.joblib')
-    scaler = joblib.load('https://raw.githubusercontent.com/naswadina/Aplikasi_Prediksi_Anggaran/blob/main/scaler.joblib')
-except FileNotFoundError:
-    st.error(
-        "Model files not found! Please run the `train_and_save_model.py` script"
-        "first to generate 'model_pipeline.joblib' and 'scaler.joblib'."
-    )
+    # Memuat dari path lokal, bukan URL
+    pipeline = joblib.load(MODEL_PATH)
+    scaler = joblib.load(SCALER_PATH)
+except Exception as e:
+    st.error(f"Error saat memuat file model: {e}")
     st.stop()
 
 # --- User Interface ---
@@ -48,8 +54,8 @@ if st.sidebar.button('Prediksi Kategori Penyerapan', type="primary"):
     input_scaled = scaler.transform(input_data)
 
     # Make prediction
-    prediction = model.predict(input_scaled)
-    prediction_proba = model.predict_proba(input_scaled)
+    prediction = pipeline.predict(input_scaled)
+    prediction_proba = pipeline.predict_proba(input_scaled)
 
     # Display result
     st.subheader("Hasil Prediksi:")
@@ -63,7 +69,8 @@ if st.sidebar.button('Prediksi Kategori Penyerapan', type="primary"):
         st.error(f"**Kategori Penyerapan: {kategori}**")
 
     st.subheader("Probabilitas Prediksi:")
-    proba_df = pd.DataFrame(prediction_proba, columns=model.classes_, index=["Probabilitas"])
+    # Menggunakan 'pipeline.classes_' karena kita memuat pipeline
+    proba_df = pd.DataFrame(prediction_proba, columns=pipeline.classes_, index=["Probabilitas"])
     st.dataframe(proba_df.style.format("{:.2%}"))
 
 st.info(
