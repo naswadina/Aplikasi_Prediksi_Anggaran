@@ -3,6 +3,6 @@ pandas
 plotly-express
 joblib
 numpy
-openpyxl 
-scikit-learn 
-imbalanced-learn
+openpyxl
+scikit-learn==1.4.2
+imbalanced-learn==0.12.0
