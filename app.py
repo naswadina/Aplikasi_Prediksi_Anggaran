@@ -203,7 +203,7 @@ with tab2:
         sisa_anggaran_pred = st.sidebar.number_input('Sisa Anggaran (Rp)', min_value=0.0, format="%f")
         triwulan_pred = st.sidebar.selectbox('Triwulan', [1, 2, 3, 4], key='pred_triwulan')
         
-        if st.sidebar.button('🔮 Prediksi', type="primary", use_container_width=True)
+        if st.sidebar.button('🔮 Prediksi', type="primary", use_container_width=True):
         
     if submitted:
         # --- [NEW] Calculate estimated realization ---
