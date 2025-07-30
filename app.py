@@ -66,7 +66,7 @@ with tab1:
     st.header("📈 Dashboard Analitik Kinerja Anggaran")
     
     # --- FILTER ---
-    st.subheader("🎛️ Filter Data Analitik")
+    st.subheader("Filter Data Analitik")
     
     # --- [BARU] Menambahkan expander untuk filter agar lebih rapi ---
     with st.expander("Buka Panel Filter"):
