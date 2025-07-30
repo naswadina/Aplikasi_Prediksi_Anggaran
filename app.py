@@ -225,7 +225,7 @@ with tab2:
                 # --- [NEW] Displaying the estimated Net Realization ---
                 st.metric(label="💵 Prediksi Realisasi Netto", value=f"Rp {realisasi_netto_pred:,.0f}")
             
-            with res_col2
+            with res_col2:
             if kategori_pred == "Tinggi":
                 st.success(f"**Kategori Penyerapan: {kategori_pred}** 📈")
             elif kategori_pred == "Sedang":
