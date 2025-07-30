@@ -208,28 +208,40 @@ with tab2:
                 'ANGGARAN_REVISI': [anggaran_revisi_pred], 'SISA_ANGGARAN': [sisa_anggaran_pred],
                 'TRIWULAN': [triwulan_pred]
             })
-
+        
             st.subheader("➡️ Data Input:")
             st.dataframe(input_data)
-
+        
+            # Hitung realisasi netto dan persen realisasi
+            realisasi_netto_pred = anggaran_revisi_pred - sisa_anggaran_pred
+            persen_realisasi_pred = (realisasi_netto_pred / anggaran_revisi_pred * 100) if anggaran_revisi_pred > 0 else 0
+        
+            # --- Tampilkan KPI prediksi realisasi ---
+            kpi1, kpi2 = st.columns(2)
+            with kpi1:
+                st.metric("💵 Prediksi Realisasi Netto", f"Rp {realisasi_netto_pred:,.0f}")
+            with kpi2:
+                st.metric("📊 Persentase Realisasi", f"{persen_realisasi_pred:.2f}%")
+        
+            # Prediksi kategori penyerapan
             input_scaled = scaler.transform(input_data)
             prediction = model.predict(input_scaled)
             prediction_proba = model.predict_proba(input_scaled)
-
+        
             st.subheader("✅ Hasil Prediksi:")
             kategori_pred = prediction[0]
-
+        
             if kategori_pred == "Tinggi":
                 st.success(f"**Kategori Penyerapan: {kategori_pred}** 📈")
             elif kategori_pred == "Sedang":
                 st.warning(f"**Kategori Penyerapan: {kategori_pred}** 📊")
             else:
                 st.error(f"**Kategori Penyerapan: {kategori_pred}** 📉")
-
+        
             st.subheader("🔢 Probabilitas Prediksi:")
             proba_df = pd.DataFrame(prediction_proba, columns=model.classes_, index=["Probabilitas"])
             st.dataframe(proba_df.style.format("{:.2%}"))
-        
+
         st.info(
             "**Cara Penggunaan:**\n"
             "1. Isi semua parameter pada panel di sebelah kiri.\n"
