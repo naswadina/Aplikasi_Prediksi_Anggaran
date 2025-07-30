@@ -184,7 +184,6 @@ with tab1:
     st.subheader("📋 Detail Data Sesuai Filter")
     st.dataframe(df_selection)
 
-
 # ==============================================================================
 # --- TAB 2: APLIKASI PREDIKSI ---
 # ==============================================================================
@@ -203,16 +202,7 @@ with tab2:
         sisa_anggaran_pred = st.sidebar.number_input('Sisa Anggaran (Rp)', min_value=0.0, format="%f")
         triwulan_pred = st.sidebar.selectbox('Triwulan', [1, 2, 3, 4], key='pred_triwulan')
         
-        submitted = st.sidebar.button('🔮 Prediksi', type="primary", use_container_width=True)
-        
-    if submitted:
-        # --- [NEW] Calculate estimated realization ---
-        realisasi_netto_pred = anggaran_revisi_pred - sisa_anggaran_pred
-
-        # Check for invalid input
-        if anggaran_revisi_pred < realisasi_netto_pred:
-            st.error("Input tidak valid: 'Sisa Anggaran' tidak boleh lebih besar dari 'Anggaran Setelah Revisi'.", icon="🚨")
-        else:
+        if st.sidebar.button('🔮 Prediksi', type="primary", use_container_width=True):
             input_data = pd.DataFrame({
                 'AKUN': [akun_pred], 'ANGGARAN_SEMULA': [anggaran_semula_pred],
                 'ANGGARAN_REVISI': [anggaran_revisi_pred], 'SISA_ANGGARAN': [sisa_anggaran_pred],
@@ -229,18 +219,12 @@ with tab2:
             st.subheader("✅ Hasil Prediksi:")
             kategori_pred = prediction[0]
 
-            res_col1, res_col2 = st.columns(2)
-            with res_col1:
-                    # --- [NEW] Displaying the estimated Net Realization ---
-                    st.metric(label="💵 Prediksi Realisasi Netto", value=f"Rp {realisasi_netto_pred:,.0f}")
-
-            with res_col2:
-                if kategori_pred == "Tinggi":
-                    st.success(f"**Kategori Penyerapan: {kategori_pred}** 📈")
-                elif kategori_pred == "Sedang":
-                    st.warning(f"**Kategori Penyerapan: {kategori_pred}** 📊")
-                else:
-                    st.error(f"**Kategori Penyerapan: {kategori_pred}** 📉")
+            if kategori_pred == "Tinggi":
+                st.success(f"**Kategori Penyerapan: {kategori_pred}** 📈")
+            elif kategori_pred == "Sedang":
+                st.warning(f"**Kategori Penyerapan: {kategori_pred}** 📊")
+            else:
+                st.error(f"**Kategori Penyerapan: {kategori_pred}** 📉")
 
             st.subheader("🔢 Probabilitas Prediksi:")
             proba_df = pd.DataFrame(prediction_proba, columns=model.classes_, index=["Probabilitas"])
