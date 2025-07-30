@@ -55,6 +55,7 @@ model, scaler = load_model_and_scaler()
 
 # --- JUDUL UTAMA APLIKASI ---
 st.title("💰 Analisis & Prediksi Penyerapan Anggaran")
+st.markdown("Selamat datang di dashboard interaktif anda. Gunakan tab di bawah untuk menjelajahi analisis kinerja anggaran atau untuk membuat prediksi penyerapan.")
 
 # --- MEMBUAT TAB ---
 tab1, tab2 = st.tabs(["📈 Dashboard Analitik", "🤖 Aplikasi Prediksi"])
@@ -105,8 +106,10 @@ with tab1:
     df_selection = df_analytic.query(
         "KATEGORI_SERAPAN == @kategori_filter & TRIWULAN == @triwulan_filter & JENIS_BELANJA == @jenis_belanja_filter & ANGGARAN_REVISI >= @rentang_anggaran[0] & ANGGARAN_REVISI <= @rentang_anggaran[1]"
     )
-    
-    st.markdown("---")
+    if df_selection.empty:
+        st.warning("Tidak ada data yang cocok dengan filter yang Anda pilih. Coba sesuaikan filter Anda.", icon="⚠️")
+    else:
+        st.markdown("---")
 
     # --- KPI ---
     total_anggaran = float(df_selection['ANGGARAN_REVISI'].sum())
@@ -234,4 +237,11 @@ with tab2:
             "2. Klik tombol '🔮 Prediksi'.\n"
             "3. Hasil prediksi akan muncul di halaman ini.",
             icon="💡"
+        )
+        st.markdown(
+                f"<div style='text-align: center; padding: 50px;'>"
+                f"<span style='font-size: 100px;'>🤖</span>"
+                f"<h3>Menunggu Input Anda...</h3>"
+                f"</div>",
+                unsafe_allow_html=True
         )
