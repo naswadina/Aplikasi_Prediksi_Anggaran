@@ -249,10 +249,3 @@ with tab2:
             "3. Hasil prediksi akan muncul di halaman ini.",
             icon="💡"
         )
-        st.markdown(
-                f"<div style='text-align: center; padding: 50px;'>"
-                f"<span style='font-size: 100px;'>🤖</span>"
-                f"<h3>Menunggu Input Anda...</h3>"
-                f"</div>",
-                unsafe_allow_html=True
-        )
