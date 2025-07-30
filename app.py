@@ -219,7 +219,13 @@ with tab2:
 
             st.subheader("✅ Hasil Prediksi:")
             kategori_pred = prediction[0]
-
+            
+            res_col1, res_col2 = st.columns(2)
+            with res_col1:
+                # --- [NEW] Displaying the estimated Net Realization ---
+                st.metric(label="💵 Prediksi Realisasi Netto", value=f"Rp {realisasi_netto_pred:,.0f}")
+            
+            with res_col2
             if kategori_pred == "Tinggi":
                 st.success(f"**Kategori Penyerapan: {kategori_pred}** 📈")
             elif kategori_pred == "Sedang":
